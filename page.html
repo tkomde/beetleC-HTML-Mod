@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Beetle C</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #f9f9f9;
+        }
+
+        .app-title {
+            text-align: center;
+            font-size: 30px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        .box {
+            width: 300px;
+            height: 40px;
+            margin: auto;
+        }
+
+        .bottom {
+            position: fixed;
+            bottom: 30px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .bottom .btn {
+            width: 60px;
+            height: 60px;
+            margin: 0 5px;
+            outline: none;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .off {
+            background-color: #333;
+        }
+
+        .red {
+            background-color: #E71D36;
+        }
+
+        .green {
+            background-color: #3ac569;
+        }
+
+        .blue {
+            background-color: #0080ff;
+        }
+
+        .control {
+            position: relative;
+            float: left;
+            width: 50%;
+            height: 100%;
+            text-align: center;
+        }
+
+        .control .title {
+            margin-bottom: 2px;
+            font-size: 32px;
+            font-weight: bolder;
+        }
+
+        .control .data {
+            position: absolute;
+            display: block;
+            width: 100%;
+            font-size: 22px;
+            text-align: center;
+            bottom: 0px;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <h2 class="app-title">Beetle C</h2>
+    
+    <div id="joyDiv" style="width:180px;height:180px;margin-left:auto;margin-right:auto;"></div>
+    
+    <div class="box">
+        <div class="control left">
+            <span id="motor_left_value" class="data">L 0</span>
+        </div>
+        <div class="control right">
+            <span id="motor_right_value" class="data">R 0</span>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <button class="btn off" data-color="0"></button>
+        <button class="btn red" data-color="1"></button>
+        <button class="btn green" data-color="2"></button>
+        <button class="btn blue" data-color="3"></button>
+    </div>
+</body>
+
+<script>
+    var JoyStick=function(t,e){function i(){S.beginPath(),S.arc(x,y,G,0,k,!1),S.lineWidth=w,S.strokeStyle=C,S.stroke()}function n(){S.beginPath(),m>Y&&(Y=E),Y+m>L.width&&(Y=L.width-E),m>T&&(T=E),T+m>L.height&&(T=L.height-E),S.arc(Y,T,m,0,k,!1);var t=S.createRadialGradient(x,y,5,x,y,200);t.addColorStop(0,f),t.addColorStop(1,g),S.fillStyle=t,S.fill(),S.lineWidth=v,S.strokeStyle=g,S.stroke()}function o(){W=1}function h(t){t.preventDefault(),1==W&&(Y=t.touches[0].pageX,T=t.touches[0].pageY,Y-=L.offsetLeft,T-=L.offsetTop,S.clearRect(0,0,L.width,L.height),i(),n())}function r(){W=0,Y=x,T=y,S.clearRect(0,0,L.width,L.height),i(),n()}function d(){W=1}function a(t){1==W&&(Y=t.pageX,T=t.pageY,Y-=L.offsetLeft,T-=L.offsetTop,S.clearRect(0,0,L.width,L.height),i(),n())}function l(){W=0,Y=x,T=y,S.clearRect(0,0,L.width,L.height),i(),n()}e=e||{};var c=void 0===e.title?"joystick":e.title,u=void 0===e.width?0:e.width,s=void 0===e.height?0:e.height,f=void 0===e.internalFillColor?"#AAA":e.internalFillColor,v=void 0===e.internalLineWidth?2:e.internalLineWidth,g=void 0===e.internalStrokeColor?"#333":e.internalStrokeColor,w=void 0===e.externalLineWidth?2:e.externalLineWidth,C=void 0===e.externalStrokeColor?"#888":e.externalStrokeColor,p=document.getElementById(t),L=document.createElement("canvas");L.id=c,0==u&&(u=p.clientWidth),0==s&&(s=p.clientHeight),L.width=u,L.height=s,p.appendChild(L);var S=L.getContext("2d"),W=0,k=2*Math.PI,m=(L.width-110)/2,E=m+5,G=m+30,x=L.width/2,y=L.height/2,P=L.width/10,R=-1*P,F=L.height/10,X=-1*F,Y=x,T=y,b=true;b?(L.addEventListener("touchstart",o,!1),L.addEventListener("touchmove",h,!1),L.addEventListener("touchend",r,!1)):(L.addEventListener("mousedown",d,!1),L.addEventListener("mousemove",a,!1),L.addEventListener("mouseup",l,!1)),i(),n(x,y),this.GetWidth=function(){return L.width},this.GetHeight=function(){return L.height},this.GetPosX=function(){return Y},this.GetPosY=function(){return T},this.GetX=function(){return(100*((Y-x)/E)).toFixed()},this.GetY=function(){return(100*((T-y)/E)*-1).toFixed()},this.GetDir=function(){var t="",e=Y-x,i=T-y;return i>=X&&F>=i&&(t="C"),X>i&&(t="N"),i>F&&(t="S"),R>e&&("C"==t?t="W":t+="W"),e>P&&("C"==t?t="W":t+="E"),t}};
+
+    var joy = new JoyStick('joyDiv');
+    var lElm = document.getElementById("motor_left_value");
+    var rElm = document.getElementById("motor_right_value");
+    var coeffAbs = 0.5;
+    var coeffWA = 0.3;
+    var moveLeftM1 = 0;
+    var moveRightM1 = 0;
+    
+    setInterval(function(){
+      var xNow=Number(joy.GetX()) * coeffAbs;
+      var yNow=Number(joy.GetY()) * coeffAbs;
+      if(xNow != 0 || yNow != 0){
+        /*V1 var vecRaw = Math.sign(yNow)*Math.sqrt(xNow**2+yNow**2) * coeffAbs;
+        var vec = vecRaw >= 50*coeffAbs ? 50*coeffAbs : (vecRaw <= -50*coeffAbs ? -50*coeffAbs : vecRaw);
+        var theta = Math.atan(yNow/xNow); 
+        var moveLeft = xNow >= 0 ? vec.toFixed(0) : (vec*(Math.sqrt(1-Math.cos(theta)))).toFixed(0);
+        var moveRight = xNow >= 0 ? (vec*(Math.sqrt(1-Math.cos(theta)))).toFixed(0) : vec.toFixed(0);
+        */
+        var diff = Math.sqrt(Math.abs(xNow)) * 3;
+        //var diff = Math.abs(xNow);
+        var moveLeftTmp = xNow >= 0 ? yNow+diff : yNow-diff;
+        var moveRightTmp = xNow >= 0 ? yNow-diff : yNow+diff;
+        var moveLeft = (moveLeftTmp * coeffWA + moveLeftM1 * (1-coeffWA)).toFixed(0);
+        var moveRight = (moveRightTmp * coeffWA + moveRightM1 * (1-coeffWA)).toFixed(0);
+        lElm.innerText="L " + moveLeft;
+        rElm.innerText="R " + moveRight;
+        moveLeftM1 = moveLeft;
+        moveRightM1 = moveRight;
+        
+        sendData(URL + '?' + 'left=' + moveLeft + '&' + 'right=' + moveRight + '&' + 'color=' + color);
+        console.log(`${moveLeft} ${moveRight}`);
+      } else {
+        lElm.innerText="L 0";
+        rElm.innerText="R 0";
+        moveLeftM1 = 0;
+        moveRightM1 = 0;
+        //sendData(URL + '?' + 'left=' + 0 + '&' + 'right=' + 0 + '&' + 'color=' + color);
+      }
+    }, 150);
+
+    var URL = 'http://192.168.4.1/control';
+    var color = 1;
+    var timer = null;
+
+    var btnList = document.getElementsByClassName('btn');
+
+    for (var i = 0; i < btnList.length; i++) {
+        btnList[i].addEventListener('touchend', handleColorChange);
+    }
+
+    function sendData(url) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url);
+        xhr.send();
+    }
+
+    function handleColorChange(ev) {
+        color = ev.target.getAttribute('data-color');
+        sendData(URL + '?left=0&right=0&color=' + ev.target.getAttribute('data-color'));
+    }
+</script>
+
+</html>
