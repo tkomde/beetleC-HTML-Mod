@@ -2,12 +2,12 @@
 
 Mod from [official sample](https://github.com/m5stack/M5-ProductExampleCodes/tree/master/Hat/beetleC/stickC/beetleC)
 
-![UI](./UI.jpg)
+![UI](./UI.png)
 
 - Joystick UI
 - Weighted average calculation for smooth driving
 
-# Procedure
+# Deployment procedure
 
 ## Endocing html to page.h 
 
@@ -27,7 +27,9 @@ esp_err_t controlPage(httpd_req_t *req) {
 }
 ```
 
-## Acknowledgement
+## Compile and transfer firmware
+
+# Acknowledgement
 
 Following JoyStick library is embedded in the html with some modification.
 https://github.com/bobboteck/JoyStick
